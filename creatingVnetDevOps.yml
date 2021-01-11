@@ -1,0 +1,27 @@
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+Steps:
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '101-vnet-two-subnets'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'connectionToAzure'
+    subscriptionId: 'e089188c-f85b-4db5-a221-856eda42aa74'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'ARMPipelinesVnet-rg'
+    location: 'North Europe'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(Build.ArtifactStagingDirectory)/azuredeploy.json'
+    csmParametersFile: '$(Build.ArtifactStagingDirectory)/azuredeploy.parameters.json'
+    deploymentMode: 'Incremental'
+
+
+
