@@ -4,7 +4,7 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
-Steps:
+steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: '101-vnet-two-subnets'
